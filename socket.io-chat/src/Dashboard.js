@@ -51,6 +51,12 @@ export default function Dashboard() {
   const [activeListing, changeActiveListing] = React.useState(listings[0]);
   const [textValue, changeTextValue] = React.useState("");
 
+  //   handleKeyPress = event => {
+  //     if (event.key === "Enter") {
+  //         console.log("enter was pressed");
+  //     }
+  //   };
+
   return (
     <div>
       <Paper className={classes.root}>
@@ -91,8 +97,20 @@ export default function Dashboard() {
             className={classes.chatBox}
             value={textValue}
             onChange={e => changeTextValue(e.target.value)}
+            onKeyPress={event => {
+              if (event.key === "Enter") {
+                console.log("enter was pressed");
+                sendChatAction({
+                  from: user,
+                  msg: textValue,
+                  listing: activeListing
+                });
+                changeTextValue("");
+              }
+            }}
           />
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             onClick={() => {
