@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Chip from "@material-ui/core/Chip";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import { CTX } from "./Store";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,6 +39,16 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+
+  // CTX Store
+  const [allChats] = React.useContext(CTX);
+
+  console.log({ allChats });
+
+  const listings = Object.keys(allChats);
+
+  // local state
+  const [activeListing, changeActiveListing] = React.useState(listings[0]);
   const [textValue, changeTextValue] = React.useState("");
 
   return (
@@ -47,28 +58,29 @@ export default function Dashboard() {
           Chat App
         </Typorgraphy>
         <Typorgraphy variant="h5" component="h5">
-          Placeholder
+          {activeListing}
         </Typorgraphy>
         <div className={classes.flex}>
           <div className={classes.listingCard}>
             <List>
-              {[
-                "justin@gmail.com",
-                "leo@gmail.com",
-                "andy@gmail.com",
-                "harrison@gmail.com"
-              ].map(topic => (
-                <ListItem key={topic} button>
-                  <ListItemText primary={topic}></ListItemText>
+              {listings.map(listing => (
+                <ListItem
+                  onClick={e => changeActiveListing(e.target.innerText)}
+                  key={listing}
+                  button
+                >
+                  <ListItemText primary={listing}></ListItemText>
                 </ListItem>
               ))}
             </List>
           </div>
           <div className={classes.chatWindow}>
-            {[{ from: "user", msg: "hello" }].map((chat, i) => (
+            {allChats[activeListing].map((chat, i) => (
               <div className={classes.flex} key={i}>
                 <Chip label={chat.from} className={classes.chip} />
-                <Typorgraphy variant="p">{chat.msg}</Typorgraphy>
+                <Typorgraphy variant="body1" gutterBottom>
+                  {chat.msg}
+                </Typorgraphy>
               </div>
             ))}
           </div>
