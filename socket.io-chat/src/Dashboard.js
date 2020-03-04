@@ -41,7 +41,7 @@ export default function Dashboard() {
   const classes = useStyles();
 
   // CTX Store
-  const [allChats] = React.useContext(CTX);
+  const { allChats, sendChatAction, user } = React.useContext(CTX);
 
   console.log({ allChats });
 
@@ -92,7 +92,18 @@ export default function Dashboard() {
             value={textValue}
             onChange={e => changeTextValue(e.target.value)}
           />
-          <Button variant="contained" color="primary">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              sendChatAction({
+                from: user,
+                msg: textValue,
+                listing: activeListing
+              });
+              changeTextValue("");
+            }}
+          >
             Send
           </Button>
         </div>
