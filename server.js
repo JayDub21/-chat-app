@@ -15,6 +15,8 @@ io.on("connect", function(socket) {
   });
 });
 
-http.listen(PORT, function() {
-  console.log(`🌎  ==> socket.io server now listening on PORT ${PORT}!`);
-});
+// http.listen(PORT, function() {
+//   console.log(`🌎  ==> socket.io server now listening on PORT ${PORT}!`);
+// });
+
+setInterval(() => io.emit("time", new Date().toTimeString()), 1000);
