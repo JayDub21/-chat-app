@@ -3,7 +3,7 @@ var express = require("express");
 var app = express();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http, { origins: "*:*" });
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3000;
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
@@ -19,7 +19,7 @@ app.get("/", function(req, res) {
 });
 
 io.on("connect", function(socket) {
-  console.log("a user connected");
+  console.log("a user connected @", socket.id);
   socket.on("chat message", function(msg) {
     console.log("message: ", JSON.stringify(msg));
     io.emit("chat message", msg);
